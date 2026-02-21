@@ -10,6 +10,7 @@
                 <th>Model</th>
                 <th>Year</th>
                 <th>Price</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -18,6 +19,7 @@
                 <td>{{ car.model }}</td>
                 <td>{{ car.year }}</td>
                 <td>{{ car.price }}</td>
+                <td><button @click="emit('edit', car)">Edit</button></td>
             </tr>
             </tbody>
         </table>
@@ -28,14 +30,18 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
+const emit = defineEmits(['edit']);
 const cars = ref([]);
 
-onMounted(async () => {
+async function fetchCars() {
     try {
         const response = await axios.get('/api/cars');
         cars.value = response.data.data;
     } catch (error) {
         console.error('Failed to fetch cars:', error);
     }
-});
+}
+
+defineExpose({ fetchCars });
+onMounted(fetchCars);
 </script>
