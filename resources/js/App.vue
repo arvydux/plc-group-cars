@@ -1,3 +1,7 @@
 <template>
-    <h1>Cars</h1>
+    <CarsTable/>
 </template>
+
+<script setup>
+import CarsTable from "./components/CarsTable.vue";
+</script>
