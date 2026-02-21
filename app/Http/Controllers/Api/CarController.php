@@ -9,12 +9,17 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class CarController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return CarResource::collection(Car::all());
+        $cars = Cache::remember('cars:all', 60, function () {
+            return Car::all();
+        });
+
+        return CarResource::collection($cars);
     }
 
     public function store(Request $request): CarResource
@@ -29,6 +34,7 @@ class CarController extends Controller
         ]);
 
         $car = Car::create($validated);
+        Cache::forget('cars:all');
 
         return new CarResource($car);
     }
@@ -50,6 +56,7 @@ class CarController extends Controller
         ]);
 
         $car->update($validated);
+        Cache::forget('cars:all');
 
         return new CarResource($car);
     }
@@ -57,6 +64,7 @@ class CarController extends Controller
     public function destroy(Car $car): Response
     {
         $car->delete();
+        Cache::forget('cars:all');
 
         return response()->noContent();
     }
