@@ -1,6 +1,10 @@
 <template>
-    <div>
-        <button v-if="!showForm && !editingCar" @click="showForm = true">Add Car</button>
+    <div class="max-w-3xl mx-auto p-4">
+            <h1>Cars</h1>
+            <button v-if="!showForm && !editingCar" @click="showForm = true"
+                    class="bg-blue-500 text-white text-sm px-3 py-1.5 rounded">
+                Add Car
+            </button>
         <AddCarForm v-if="showForm" @car-added="onCarAdded" @cancel="showForm = false" />
         <EditCarForm v-if="editingCar" :car="editingCar" @car-updated="onCarUpdated" @cancel="editingCar = null" />
         <CarsTable ref="carsTable" @edit="onEdit" />

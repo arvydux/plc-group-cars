@@ -1,28 +1,28 @@
-@ -0,0 +1,40 @@
 <template>
-    <div>
-        <h1>Cars</h1>
-
-        <table>
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm">
             <thead>
-            <tr>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Price</th>
+            <tr class="text-left">
+                <th class="py-2 pr-4">Make</th>
+                <th class="py-2 pr-4">Model</th>
+                <th class="py-2 pr-4">Year</th>
+                <th class="py-2 pr-4">Price</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="car in cars" :key="car.id">
-                <td>{{ car.make }}</td>
-                <td>{{ car.model }}</td>
-                <td>{{ car.year }}</td>
-                <td>{{ car.price }}</td>
-                <td><button @click="emit('edit', car)">Edit</button></td>
+                <td class="py-2.5 pr-4">{{ car.make }}</td>
+                <td class="py-2.5 pr-4">{{ car.model }}</td>
+                <td class="py-2.5 pr-4">{{ car.year }}</td>
+                <td class="py-2.5 pr-4">{{ car.price }}</td>
+                <td class="py-2.5">
+                    <button @click="emit('edit', car)" class="text-blue-500">Edit</button>
+                </td>
             </tr>
             </tbody>
         </table>
+        <p v-if="!cars.length">No cars yet</p>
     </div>
 </template>
 

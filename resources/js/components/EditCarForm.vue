@@ -1,37 +1,44 @@
 <template>
     <form @submit.prevent="submit">
-        <h2>Edit Car</h2>
+        <h2 class="font-bold">Edit Car</h2>
 
-        <div v-if="errors.general">{{ errors.general }}</div>
+        <p v-if="errors.general" class="text-red-500 text-sm">{{ errors.general }}</p>
 
-        <div>
-            <label for="edit-make">Make</label>
-            <input id="edit-make" v-model="form.make" type="text" maxlength="255" />
-            <p v-if="errors.make">{{ errors.make }}</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+                <label for="edit-make" class="block text-sm">Make</label>
+                <input id="edit-make" v-model="form.make" type="text" maxlength="255"
+                       class="border rounded px-2.5 py-1.5 w-full text-sm" />
+                <p v-if="errors.make" class="text-red-500 text-xs">{{ errors.make }}</p>
+            </div>
+            <div>
+                <label for="edit-model" class="block text-sm">Model</label>
+                <input id="edit-model" v-model="form.model" type="text" maxlength="255"
+                       class="border rounded px-2.5 py-1.5 w-full text-sm" />
+                <p v-if="errors.model" class="text-red-500 text-xs">{{ errors.model }}</p>
+            </div>
+            <div>
+                <label for="edit-year" class="block text-sm">Year</label>
+                <input id="edit-year" v-model.number="form.year" type="number" min="1900" :max="maxYear"
+                       class="border rounded px-2.5 py-1.5 w-full text-sm" />
+                <p v-if="errors.year" class="text-red-500 text-xs">{{ errors.year }}</p>
+            </div>
+            <div>
+                <label for="edit-price" class="block text-sm">Price</label>
+                <input id="edit-price" v-model.number="form.price" type="number" min="0" step="1"
+                       class="border rounded px-2.5 py-1.5 w-full text-sm" />
+                <p v-if="errors.price" class="text-red-500 text-xs">{{ errors.price }}</p>
+            </div>
         </div>
 
-        <div>
-            <label for="edit-model">Model</label>
-            <input id="edit-model" v-model="form.model" type="text" maxlength="255" />
-            <p v-if="errors.model">{{ errors.model }}</p>
+        <div class="flex gap-2">
+            <button type="submit" :disabled="submitting"
+                    class="bg-blue-500 text-white text-sm px-3 py-1.5 rounded">
+                {{ submitting ? 'Saving...' : 'Save' }}
+            </button>
+            <button type="button" @click="emit('cancel')"
+                    class="text-sm px-3 py-1.5 rounded border">Cancel</button>
         </div>
-
-        <div>
-            <label for="edit-year">Year</label>
-            <input id="edit-year" v-model.number="form.year" type="number" min="1900" :max="maxYear" />
-            <p v-if="errors.year">{{ errors.year }}</p>
-        </div>
-
-        <div>
-            <label for="edit-price">Price</label>
-            <input id="edit-price" v-model.number="form.price" type="number" min="0" step="0.01" />
-            <p v-if="errors.price">{{ errors.price }}</p>
-        </div>
-
-        <button type="submit" :disabled="submitting">
-            {{ submitting ? 'Saving...' : 'Save' }}
-        </button>
-        <button type="button" @click="emit('cancel')" :disabled="submitting">Cancel</button>
     </form>
 </template>
 
