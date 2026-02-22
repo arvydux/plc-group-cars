@@ -11,13 +11,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="car in cars" :key="car.id">
+            <tr v-for="car in cars" :key="car.id" class="border-b hover:bg-gray-50">
                 <td class="py-2.5 pr-4">{{ car.make }}</td>
                 <td class="py-2.5 pr-4">{{ car.model }}</td>
                 <td class="py-2.5 pr-4">{{ car.year }}</td>
                 <td class="py-2.5 pr-4">{{ car.price }}</td>
-                <td class="py-2.5">
+                <td class="py-2.5 flex gap-3">
                     <button @click="emit('edit', car)" class="text-blue-500">Edit</button>
+                    <button @click="deleteCar(car)" class="text-red-400">Delete</button>
                 </td>
             </tr>
             </tbody>
@@ -30,7 +31,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const emit = defineEmits(['edit']);
+const emit = defineEmits(['edit', 'deleted']);
 const cars = ref([]);
 
 async function fetchCars() {
@@ -39,6 +40,16 @@ async function fetchCars() {
         cars.value = response.data.data;
     } catch (error) {
         console.error('Failed to fetch cars:', error);
+    }
+}
+
+async function deleteCar(car) {
+    if (!confirm(`Delete ${car.make} ${car.model}?`)) return;
+    try {
+        await axios.delete(`/api/cars/${car.id}`);
+        emit('deleted');
+    } catch (error) {
+        console.error('Failed to delete:', error);
     }
 }
 
