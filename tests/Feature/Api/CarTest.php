@@ -4,7 +4,6 @@ namespace Tests\Feature\Api;
 
 use App\Models\Car;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CarTest extends TestCase
@@ -19,7 +18,7 @@ class CarTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(1, 'data')
             ->assertJson([
-                'data' => [$car->toArray()]
+                'data' => [$car->toArray()],
             ]);
     }
 
